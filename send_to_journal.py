@@ -7,9 +7,13 @@ class LogParse:
 
     def main(self):
         self.journal_reader.this_boot()
-        for event in self.journal_reader:
-            if event['MESSAGE'] in "error":
-                print(event)
+        try:
+            for event in self.journal_reader:
+                    if "error" in event['MESSAGE']:
+                            # print(event["_HOSTNAME"])
+                            print(event)
+        except IOError:
+            print("Bineary")
 
 
 if __name__ ==  '__main__':
