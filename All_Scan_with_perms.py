@@ -16,19 +16,22 @@ class DirectoryWalk:
         return parser.parse_args()
 
     def scan_path(self):
-        with os.scandir(self.path) as iter_path:
-            for entry in iter_path:
+
+        rootdir = self.path
+        for rootdir, dirs, files in os.walk(rootdir):
+            for subdir in dirs:
+                file = os.path.join(rootdir, subdir)
                 try:
-                    if entry.is_file():
-                        print(entry.name)
-                        file_info = os.stat(entry)
-                        print("Perms")
-                        print(stat.filemode(file_info.st_mode))
-                        print("Timestamp")
-                        print("Access {} ".format(datetime.datetime.fromtimestamp(file_info.st_atime)))
-                        print("Modify {} ".format(datetime.datetime.fromtimestamp(file_info.st_mtime)))
-                        print("Create {} ".format(datetime.datetime.fromtimestamp(file_info.st_ctime)))
-                        print("\n")
+                    # if file.is_file():
+                    print(file)
+                    file_info = os.stat(file)
+                    print("Perms")
+                    print(stat.filemode(file_info.st_mode))
+                    print("Timestamp")
+                    print("Access {} ".format(datetime.datetime.fromtimestamp(file_info.st_atime)))
+                    print("Modify {} ".format(datetime.datetime.fromtimestamp(file_info.st_mtime)))
+                    print("Create {} ".format(datetime.datetime.fromtimestamp(file_info.st_ctime)))
+                    print("\n")
                 except IOError:
                     print("File not accessible")
 
